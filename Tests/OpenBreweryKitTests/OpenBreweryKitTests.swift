@@ -10,6 +10,6 @@ final class OpenBreweryKitTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testExample", testExample)
     ]
 }

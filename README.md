@@ -1,3 +1,3 @@
 # OpenBreweryKit
 
-A description of this package.
+A Swift library for interacting with https://www.openbrewerydb.org/.

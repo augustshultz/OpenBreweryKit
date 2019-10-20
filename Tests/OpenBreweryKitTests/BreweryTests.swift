@@ -121,7 +121,16 @@ class BreweryTests: XCTestCase {
       throw BreweryError.decodingError
     }
     let decodedJson = try jsonDecoder.decode(Brewery.self, from: data)
-    XCTAssertEqual(decodedJson.tags, ["patio"])
+    XCTAssertEqual(decodedJson.features, ["patio", "tours"])
+  }
+
+  func testDecodeBreweryFeature() throws {
+    let jsonDecoder = JSONDecoder()
+    guard let data = "[\"food-service\"]".data(using: .utf8) else {
+      throw BreweryError.decodingError
+    }
+    let decoded = try jsonDecoder.decode([String].self, from: data)
+    XCTAssertEqual(decoded, ["food-service"])
   }
 
   let sampleBreweryJson = """
@@ -140,7 +149,7 @@ class BreweryTests: XCTestCase {
     "website_url": "http://www.madtreebrewing.com",
     "updated_at": "2018-08-24T15:44:22.281Z",
     "tag_list": [
-      "patio"
+      "patio", "tours"
     ]
   }
   """

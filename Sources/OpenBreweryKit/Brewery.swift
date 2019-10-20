@@ -18,7 +18,7 @@ struct Brewery: Decodable {
   let longitude: CLLocationDegrees
   let phone: String
   let url: URL?
-  let tags: [String]
+  let features: [String]
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -40,12 +40,12 @@ struct Brewery: Decodable {
     phone = try container.decode(String.self, forKey: CodingKeys.phone)
     let urlString = try container.decode(String.self, forKey: CodingKeys.url)
     url = URL(string: urlString)
-    tags = try container.decode([String].self, forKey: CodingKeys.tags)
+    features = try container.decode([String].self, forKey: CodingKeys.features)
   }
 
   enum CodingKeys: String, CodingKey {
     case breweryId = "id", name, type = "brewery_type", street, city, state, postalCode = "postal_code", country,
-    latitude, longitude, phone, url = "website_url", tags = "tag_list"
+    latitude, longitude, phone, url = "website_url", features = "tag_list"
   }
 }
 

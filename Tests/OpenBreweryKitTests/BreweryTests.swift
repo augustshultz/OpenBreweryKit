@@ -7,8 +7,9 @@ import XCTest
 
 class BreweryTests: XCTestCase {
 
+  let jsonDecoder = JSONDecoder()
+
   func testJsonDecodingId() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -17,7 +18,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingName() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -26,7 +26,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryType() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -35,7 +34,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryStreet() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -44,7 +42,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryCity() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -53,7 +50,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryState() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -62,7 +58,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryPostalCode() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -80,7 +75,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryLatitude() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -89,7 +83,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryLongitude() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -98,7 +91,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryPhone() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -107,7 +99,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryUrl() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8), let url = URL(string: "http://www.madtreebrewing.com") else {
       throw BreweryError.decodingError
     }
@@ -116,7 +107,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodingBreweryTags() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweryJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -125,7 +115,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testDecodeBreweryFeature() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = "[\"food-service\"]".data(using: .utf8) else {
       throw BreweryError.decodingError
     }
@@ -134,7 +123,6 @@ class BreweryTests: XCTestCase {
   }
 
   func testDecodingBreweries() throws {
-    let jsonDecoder = JSONDecoder()
     guard let data = sampleBreweriesJson.data(using: .utf8) else {
       throw BreweryError.decodingError
     }

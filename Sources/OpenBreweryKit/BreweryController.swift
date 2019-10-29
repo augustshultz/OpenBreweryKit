@@ -12,7 +12,7 @@ struct BreweryController {
 
     do {
       return try networkController.fetchBreweries()
-    } catch let error {
+    } catch _ {
       return []
     }
   }

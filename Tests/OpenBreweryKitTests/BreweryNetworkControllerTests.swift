@@ -1,27 +1,40 @@
 //
-//  Created by August Shultz on 10/25/19.
+//  Created by August Shultz on 10/29/19.
 //
 
 import XCTest
 @testable import OpenBreweryKit
 
-struct TestBreweryNetworkController: BreweryNetworkController {
-  func fetchBreweries() throws -> [Brewery] {
-    let jsonDecoder = JSONDecoder()
-    guard let data = sampleBreweriesJson.data(using: .utf8) else {
-      throw BreweryError.decodingError
+class BreweryNetworkControllerTests: XCTestCase {
+
+  func testGetBreweries() {
+    guard let url = URL(string: "https://api.openbrewerydb.org/breweries") else {
+      XCTFail("A url is required to pass this test")
+      return
     }
-    return try jsonDecoder.decode([Brewery].self, from: data)
-  }
-}
-
-class BreweryControllerTests: XCTestCase {
-
-  let breweryController = BreweryController(networkController: TestBreweryNetworkController())
-
-  func testGetBreweriesReturnsList() throws {
-    let actual = breweryController.getBreweries()
-    XCTAssertTrue(actual.count == 2)
+    guard let data = sampleBreweriesJson.data(using: .utf8) else {
+      XCTFail("Data is required to pass this test")
+      return
+    }
+    URLProtocolMock.urls = [url: data]
+    let configuration = URLSessionConfiguration.ephemeral
+    configuration.protocolClasses = [URLProtocolMock.self]
+    let session = URLSession(configuration: configuration)
+    let networkController = BreweryNetworkController(session: session)
+    var returned = false
+    let semaphore = DispatchSemaphore(value: 0)
+    networkController.getBreweries { (result) in
+      switch result {
+      case .success(let breweries):
+        XCTAssertTrue(breweries.count > 0)
+      case .failure(let error):
+        XCTFail(error.localizedDescription)
+      }
+      returned = true
+      semaphore.signal()
+    }
+    _ = semaphore.wait()
+    XCTAssertTrue(returned, "The completion was never called")
   }
 
 }

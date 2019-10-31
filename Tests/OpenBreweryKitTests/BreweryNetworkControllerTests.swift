@@ -7,6 +7,37 @@ import XCTest
 
 class BreweryNetworkControllerTests: XCTestCase {
 
+  func testSearchForBrewery() {
+    guard let url = URL(string: "https://api.openbrewerydb.org/breweries/search?query=dog") else {
+      XCTFail("A url is required to pass this test")
+      return
+    }
+    guard let data = sampleBreweriesJson.data(using: .utf8) else {
+      XCTFail("Data is required to pass this test")
+      return
+    }
+    URLProtocolMock.urls = [url: data]
+    let configuration = URLSessionConfiguration.ephemeral
+    configuration.protocolClasses = [URLProtocolMock.self]
+    let session = URLSession(configuration: configuration)
+    let networkController = BreweryNetworkController(session: session)
+    var returned = false
+    let semaphore = DispatchSemaphore(value: 0)
+    networkController.searchForBreweries(searchText: "dog" ) { (result) in
+      switch result {
+      case .success(let breweries):
+        XCTAssertTrue(breweries.count > 0)
+      case .failure(let error):
+        XCTFail(error.localizedDescription)
+      }
+      returned = true
+      semaphore.signal()
+    }
+    _ = semaphore.wait()
+    XCTAssertTrue(returned, "The completion was never called")
+
+  }
+
   func testGetBreweries() {
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries") else {
       XCTFail("A url is required to pass this test")

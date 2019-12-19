@@ -7,35 +7,13 @@ import XCTest
 
 class AutocompleteResultTests: XCTestCase {
 
-  func testDecodeAutocompleteJson() {
+    func testDecodeAutocompleteJson() throws {
 
-    guard let data = autoCompleteResults.data(using: .utf8) else {
-      XCTFail("Data could not be created")
-      return
+        let directory = URL(fileURLWithPath: #file).deletingLastPathComponent()
+        let file = directory.appendingPathComponent("autocomplete.json")
+        let data = try Data(contentsOf: file)
+        let results = try JSONDecoder().decode([AutocompleteResult].self, from: data)
+        XCTAssertEqual(results.count, 3)
     }
-    do {
-      let results = try JSONDecoder().decode([AutocompleteResult].self, from: data)
-      XCTAssertEqual(results.count, 3)
-    } catch let error {
-      XCTFail(error.localizedDescription)
-    }
-  }
 
 }
-
-let autoCompleteResults = """
-[
-  {
-    "id": "4263",
-    "name": "Lead Dog Brewing"
-  },
-  {
-    "id": "5359",
-    "name": "Boss Dog Brewing"
-  },
-  {
-    "id": "5925",
-    "name": "Running Dogs Brewery"
-  }
-]
-"""

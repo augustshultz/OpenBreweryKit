@@ -17,13 +17,10 @@ class BreweryNetworkControllerTests: XCTestCase {
         let networkController = BreweryNetworkController(session: session)
         let expectation = XCTestExpectation()
         networkController.searchForBreweries(searchText: "dog" ) { (result) in
-            switch result {
-            case .success(let breweries):
+            if case .success(let breweries) = result {
                 XCTAssertTrue(breweries.count > 0)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
+                expectation.fulfill()
             }
-            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1.0)
 
@@ -39,13 +36,10 @@ class BreweryNetworkControllerTests: XCTestCase {
         let networkController = BreweryNetworkController(session: session)
         let expectation = XCTestExpectation()
         networkController.getBreweries { (result) in
-            switch result {
-            case .success(let breweries):
+            if case .success(let breweries) = result {
                 XCTAssertTrue(breweries.count > 0)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
+                expectation.fulfill()
             }
-            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 1)
     }

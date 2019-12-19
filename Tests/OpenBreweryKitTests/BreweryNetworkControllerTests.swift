@@ -7,15 +7,11 @@ import XCTest
 
 class BreweryNetworkControllerTests: XCTestCase {
 
-  func testSearchForBrewery() {
-    guard let url = URL(string: "https://api.openbrewerydb.org/breweries/search?query=dog") else {
-      XCTFail("A url is required to pass this test")
-      return
-    }
-    guard let data = sampleBreweriesJson.data(using: .utf8) else {
-      XCTFail("Data is required to pass this test")
-      return
-    }
+  func testSearchForBrewery() throws {
+    let url = URL(string: "https://api.openbrewerydb.org/breweries/search?query=dog")!
+    let directory = URL(fileURLWithPath: #file).deletingLastPathComponent()
+    let file = directory.appendingPathComponent("sample_breweries.json")
+    let data = try Data(contentsOf: file)
     URLProtocolMock.urls = [url: data]
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [URLProtocolMock.self]
@@ -38,15 +34,11 @@ class BreweryNetworkControllerTests: XCTestCase {
 
   }
 
-  func testGetBreweries() {
-    guard let url = URL(string: "https://api.openbrewerydb.org/breweries") else {
-      XCTFail("A url is required to pass this test")
-      return
-    }
-    guard let data = sampleBreweriesJson.data(using: .utf8) else {
-      XCTFail("Data is required to pass this test")
-      return
-    }
+  func testGetBreweries() throws {
+    let url = URL(string: "https://api.openbrewerydb.org/breweries")!
+    let directory = URL(fileURLWithPath: #file).deletingLastPathComponent()
+    let file = directory.appendingPathComponent("sample_breweries.json")
+    let data = try Data(contentsOf: file)
     URLProtocolMock.urls = [url: data]
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [URLProtocolMock.self]
@@ -69,44 +61,3 @@ class BreweryNetworkControllerTests: XCTestCase {
   }
 
 }
-
-let sampleBreweriesJson = """
-[
-  {
-    "id": 5494,
-    "name": "MadTree Brewing",
-    "brewery_type": "regional",
-    "street": "3301 Madison Rd",
-    "city": "Cincinnati",
-    "state": "Ohio",
-    "postal_code": "45209-1132",
-    "country": "United States",
-    "longitude": "-84.4239715",
-    "latitude": "39.1563725",
-    "phone": "5138368733",
-    "website_url": "http://www.madtreebrewing.com",
-    "updated_at": "2018-08-24T15:44:22.281Z",
-    "tag_list": [
-      "patio", "tours"
-    ]
-  },
-  {
-    "id": 5495,
-    "name": "MadBush Brewing",
-    "brewery_type": "regional",
-    "street": "3301 Madison Rd",
-    "city": "Cincinnati",
-    "state": "Ohio",
-    "postal_code": "45209-1132",
-    "country": "United States",
-    "longitude": "-84.4239715",
-    "latitude": "39.1563725",
-    "phone": "5138368733",
-    "website_url": "http://www.madtreebrewing.com",
-    "updated_at": "2018-08-24T15:44:22.281Z",
-    "tag_list": [
-      "patio", "tours"
-    ]
-  }
-]
-"""

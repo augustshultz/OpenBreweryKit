@@ -9,9 +9,7 @@ class BreweryNetworkControllerTests: XCTestCase {
 
     func testSearchForBrewery() throws {
         let url = URL(string: "https://api.openbrewerydb.org/breweries/search?query=dog")!
-        let directory = URL(fileURLWithPath: #file).deletingLastPathComponent()
-        let file = directory.appendingPathComponent("sample_breweries.json")
-        let data = try Data(contentsOf: file)
+        let data = try Data(fromJsonFile: "sample_breweries.json")
         URLProtocolMock.urls = [url: data]
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [URLProtocolMock.self]
@@ -33,9 +31,7 @@ class BreweryNetworkControllerTests: XCTestCase {
 
     func testGetBreweries() throws {
         let url = URL(string: "https://api.openbrewerydb.org/breweries")!
-        let directory = URL(fileURLWithPath: #file).deletingLastPathComponent()
-        let file = directory.appendingPathComponent("sample_breweries.json")
-        let data = try Data(contentsOf: file)
+        let data = try Data(fromJsonFile: "sample_breweries.json")
         URLProtocolMock.urls = [url: data]
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [URLProtocolMock.self]

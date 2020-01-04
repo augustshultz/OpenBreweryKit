@@ -85,5 +85,4 @@ class BreweryTests: XCTestCase {
         let decoded = try jsonDecoder.decode([Brewery].self, from: sampleBreweries)
         XCTAssert(decoded.count == 2)
     }
-
 }

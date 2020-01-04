@@ -12,5 +12,4 @@ class AutocompleteResultTests: XCTestCase {
         let results = try JSONDecoder().decode([AutocompleteResult].self, from: data)
         XCTAssertEqual(results.count, 3)
     }
-
 }

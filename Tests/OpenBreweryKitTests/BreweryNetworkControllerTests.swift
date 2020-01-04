@@ -23,7 +23,6 @@ class BreweryNetworkControllerTests: XCTestCase {
             }
         }
         wait(for: [expectation], timeout: 1.0)
-
     }
 
     func testGetBreweries() throws {

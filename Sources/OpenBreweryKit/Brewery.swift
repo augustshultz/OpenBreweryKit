@@ -14,8 +14,8 @@ struct Brewery: Decodable {
   let state: String
   let country: String
   let postalCode: String
-  let latitude: CLLocationDegrees
-  let longitude: CLLocationDegrees
+  let latitude: CLLocationDegrees?
+  let longitude: CLLocationDegrees?
   let phone: String
   let url: URL?
   let features: [String]
@@ -30,13 +30,15 @@ struct Brewery: Decodable {
     state = try container.decode(String.self, forKey: CodingKeys.state)
     country = try container.decode(String.self, forKey: CodingKeys.country)
     postalCode = try container.decode(String.self, forKey: CodingKeys.postalCode)
-    let latitudeString = try container.decode(String.self, forKey: CodingKeys.latitude)
-    let longitudeString = try container.decode(String.self, forKey: CodingKeys.longitude)
-    guard let longitude = Double(longitudeString), let latitude = Double(latitudeString) else {
-      throw BreweryError.decodingError
+
+    if let latitudeString = try? container.decode(String.self, forKey: CodingKeys.latitude),
+      let longitudeString = try? container.decode(String.self, forKey: CodingKeys.longitude) {
+      longitude = Double(longitudeString)
+      latitude = Double(latitudeString)
+    } else {
+      longitude = nil
+      latitude = nil
     }
-    self.longitude = longitude
-    self.latitude = latitude
     phone = try container.decode(String.self, forKey: CodingKeys.phone)
     let urlString = try container.decode(String.self, forKey: CodingKeys.url)
     url = URL(string: urlString)

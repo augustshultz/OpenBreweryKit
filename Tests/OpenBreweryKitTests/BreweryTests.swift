@@ -2,6 +2,8 @@
 //  Created by August Shultz on 10/17/19.
 //
 
+// swiftlint:disable force_try
+
 import XCTest
 @testable import OpenBreweryKit
 

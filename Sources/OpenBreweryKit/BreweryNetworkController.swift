@@ -10,10 +10,21 @@ enum BreweryNetworkControllerError: Error {
 
 struct BreweryNetworkController {
   let session: URLSession
-  
+
   init(session: URLSession = URLSession.shared) {
     self.session = session
-    
+  }
+
+  func getBreweries(forCity city: String, _ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
+    var components = URLComponents(string: "https://api.openbrewerydb.org/breweries")
+
+    components?.queryItems = [URLQueryItem(name: "by_city", value: city)]
+    guard let url = components?.url else {
+      completion(.failure(BreweryNetworkControllerError.invalidURL))
+      return
+    }
+
+    fetchBreweries(fromUrl: url, completion)
   }
 
   func getBrewery(forId id: UInt, _ completion: @escaping ((Result<Brewery, Error>) -> Void)) {
@@ -40,18 +51,18 @@ struct BreweryNetworkController {
     }
     task.resume()
   }
-  
+
   func getBreweries(_ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
-    
+
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries") else {
       completion(.failure(BreweryNetworkControllerError.invalidURL))
       return
     }
     fetchBreweries(fromUrl: url, completion)
   }
-  
+
   func searchForBreweries(searchText: String, _ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
-    
+
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries/search"),
       var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
         completion(.failure(BreweryNetworkControllerError.invalidURL))
@@ -64,9 +75,9 @@ struct BreweryNetworkController {
     }
     fetchBreweries(fromUrl: searchUrl, completion)
   }
-  
+
   func fetchBreweries(fromUrl url: URL, _ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
-    
+
     let task = session.dataTask(with: url) { (data, _, error) in
       if let error = error {
         completion(.failure(error))
@@ -79,8 +90,8 @@ struct BreweryNetworkController {
       do {
         let decoder = JSONDecoder()
         completion(.success(try decoder.decode([Brewery].self, from: data)))
-      } catch _ {
-        completion(.failure(BreweryNetworkControllerError.dataParsingError))
+      } catch let error {
+        completion(.failure(error))
         return
       }
     }

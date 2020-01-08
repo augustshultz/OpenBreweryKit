@@ -15,22 +15,21 @@ struct BreweryNetworkController {
     self.session = session
   }
 
-  func getBreweries(forCity city: String, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
+  func filterBreweries(
+    byCity city: String? = nil,
+    byName name: String? = nil,
+    _ completion: @escaping (Result<[Brewery], Error>) -> Void
+  ) {
     var components = URLComponents(string: "https://api.openbrewerydb.org/breweries")
-
-    components?.queryItems = [URLQueryItem(name: "by_city", value: city)]
-    guard let url = components?.url else {
-      completion(.failure(BreweryNetworkControllerError.invalidURL))
-      return
+    var queryItems: [URLQueryItem] = []
+    if let city = city {
+      queryItems.append(URLQueryItem(name: "by_city", value: city))
+    }
+    if let name = name {
+      queryItems.append(URLQueryItem(name: "by_name", value: name))
     }
 
-    fetchBreweries(fromUrl: url, completion)
-  }
-
-  func filterBreweries(byName name: String, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
-    var components = URLComponents(string: "https://api.openbrewerydb.org/breweries")
-
-    components?.queryItems = [URLQueryItem(name: "by_name", value: name)]
+    components?.queryItems = queryItems
     guard let url = components?.url else {
       completion(.failure(BreweryNetworkControllerError.invalidURL))
       return

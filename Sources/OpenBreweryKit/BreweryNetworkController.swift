@@ -15,7 +15,7 @@ struct BreweryNetworkController {
     self.session = session
   }
 
-  func getBreweries(forCity city: String, _ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
+  func getBreweries(forCity city: String, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
     var components = URLComponents(string: "https://api.openbrewerydb.org/breweries")
 
     components?.queryItems = [URLQueryItem(name: "by_city", value: city)]
@@ -27,7 +27,19 @@ struct BreweryNetworkController {
     fetchBreweries(fromUrl: url, completion)
   }
 
-  func getBrewery(forId id: UInt, _ completion: @escaping ((Result<Brewery, Error>) -> Void)) {
+  func filterBreweries(byName name: String, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
+    var components = URLComponents(string: "https://api.openbrewerydb.org/breweries")
+
+    components?.queryItems = [URLQueryItem(name: "by_name", value: name)]
+    guard let url = components?.url else {
+      completion(.failure(BreweryNetworkControllerError.invalidURL))
+      return
+    }
+
+    fetchBreweries(fromUrl: url, completion)
+  }
+
+  func getBrewery(forId id: UInt, _ completion: @escaping (Result<Brewery, Error>) -> Void) {
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries/\(id)") else {
       completion(.failure(BreweryNetworkControllerError.invalidURL))
       return
@@ -61,7 +73,7 @@ struct BreweryNetworkController {
     fetchBreweries(fromUrl: url, completion)
   }
 
-  func searchForBreweries(searchText: String, _ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
+  func searchForBreweries(searchText: String, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
 
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries/search"),
       var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
@@ -76,7 +88,7 @@ struct BreweryNetworkController {
     fetchBreweries(fromUrl: searchUrl, completion)
   }
 
-  func fetchBreweries(fromUrl url: URL, _ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
+  func fetchBreweries(fromUrl url: URL, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
 
     let task = session.dataTask(with: url) { (data, _, error) in
       if let error = error {

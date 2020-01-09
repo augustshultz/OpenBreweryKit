@@ -19,6 +19,7 @@ struct BreweryNetworkController {
     byCity city: String? = nil,
     byName name: String? = nil,
     byState state: String? = nil,
+    byType type: BreweryType? = nil,
     _ completion: @escaping (Result<[Brewery], Error>) -> Void
   ) {
     var components = URLComponents(string: "https://api.openbrewerydb.org/breweries")
@@ -31,6 +32,9 @@ struct BreweryNetworkController {
     }
     if let state = state {
       queryItems.append(URLQueryItem(name: "by_state", value: state))
+    }
+    if let type = type {
+      queryItems.append(URLQueryItem(name: "by_type", value: type.rawValue))
     }
     components?.queryItems = queryItems
     guard let url = components?.url else {

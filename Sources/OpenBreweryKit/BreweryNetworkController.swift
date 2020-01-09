@@ -20,6 +20,7 @@ struct BreweryNetworkController {
     byName name: String? = nil,
     byState state: String? = nil,
     byType type: BreweryType? = nil,
+    byTags tags: [String] = [],
     _ completion: @escaping (Result<[Brewery], Error>) -> Void
   ) {
     var components = URLComponents(string: "https://api.openbrewerydb.org/breweries")
@@ -35,6 +36,9 @@ struct BreweryNetworkController {
     }
     if let type = type {
       queryItems.append(URLQueryItem(name: "by_type", value: type.rawValue))
+    }
+    if tags.count > 0 {
+      queryItems.append(URLQueryItem(name: "by_tags", value: tags.joined(separator: ",")))
     }
     components?.queryItems = queryItems
     guard let url = components?.url else {

@@ -18,6 +18,7 @@ struct BreweryNetworkController {
   func filterBreweries(
     byCity city: String? = nil,
     byName name: String? = nil,
+    byState state: String? = nil,
     _ completion: @escaping (Result<[Brewery], Error>) -> Void
   ) {
     var components = URLComponents(string: "https://api.openbrewerydb.org/breweries")
@@ -28,7 +29,9 @@ struct BreweryNetworkController {
     if let name = name {
       queryItems.append(URLQueryItem(name: "by_name", value: name))
     }
-
+    if let state = state {
+      queryItems.append(URLQueryItem(name: "by_state", value: state))
+    }
     components?.queryItems = queryItems
     guard let url = components?.url else {
       completion(.failure(BreweryNetworkControllerError.invalidURL))

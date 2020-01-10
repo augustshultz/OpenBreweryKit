@@ -54,7 +54,3 @@ struct Brewery: Decodable {
 enum BreweryType: String, Decodable {
   case micro, regional, brewpub, large, planning, bar, contract, proprieter
 }
-
-enum BreweryError: Error {
-  case decodingError
-}

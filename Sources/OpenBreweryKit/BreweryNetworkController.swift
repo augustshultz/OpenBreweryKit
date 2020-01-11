@@ -4,18 +4,18 @@
 
 import Foundation
 
-enum BreweryNetworkControllerError: Error {
+public enum BreweryNetworkControllerError: Error {
   case invalidURL, noDataReturned, dataParsingError
 }
 
-struct BreweryNetworkController {
+public struct BreweryNetworkController {
   let session: URLSession
 
   init(session: URLSession = URLSession.shared) {
     self.session = session
   }
 
-  func filterBreweries(
+  public func filterBreweries(
     byCity city: String? = nil,
     byName name: String? = nil,
     byState state: String? = nil,
@@ -49,7 +49,7 @@ struct BreweryNetworkController {
     fetchBreweries(fromUrl: url, completion)
   }
 
-  func getBrewery(forId id: UInt, _ completion: @escaping (Result<Brewery, Error>) -> Void) {
+  public func getBrewery(forId id: UInt, _ completion: @escaping (Result<Brewery, Error>) -> Void) {
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries/\(id)") else {
       completion(.failure(BreweryNetworkControllerError.invalidURL))
       return
@@ -74,7 +74,7 @@ struct BreweryNetworkController {
     task.resume()
   }
 
-  func getBreweries(_ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
+  public func getBreweries(_ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
 
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries") else {
       completion(.failure(BreweryNetworkControllerError.invalidURL))
@@ -83,7 +83,7 @@ struct BreweryNetworkController {
     fetchBreweries(fromUrl: url, completion)
   }
 
-  func searchForBreweries(searchText: String, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
+  public func searchForBreweries(searchText: String, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
 
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries/search"),
       var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {

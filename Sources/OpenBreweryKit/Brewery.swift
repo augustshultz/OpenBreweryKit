@@ -5,7 +5,7 @@
 import Foundation
 import CoreLocation
 
-struct Brewery: Decodable {
+public struct Brewery: Decodable {
   let breweryId: Int
   let name: String
   let type: BreweryType
@@ -51,6 +51,6 @@ struct Brewery: Decodable {
   }
 }
 
-enum BreweryType: String, Decodable {
+public enum BreweryType: String, Decodable {
   case micro, regional, brewpub, large, planning, bar, contract, proprieter
 }

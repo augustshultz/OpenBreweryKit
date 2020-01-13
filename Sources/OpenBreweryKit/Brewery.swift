@@ -20,7 +20,7 @@ public struct Brewery: Decodable {
   let url: URL?
   let features: [String]
 
-  init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     breweryId = try container.decode(Int.self, forKey: CodingKeys.breweryId)
     name = try container.decode(String.self, forKey: CodingKeys.name)

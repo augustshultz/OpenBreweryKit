@@ -68,6 +68,13 @@ class BreweryTests: XCTestCase {
         XCTAssertEqual(decodedJson.longitude, -84.4239715)
     }
 
+  func testJsonDecodeBreweryWithNullLatitudeAndLongitude() throws {
+    let sampleData = try Data(fromJsonFile: "sample_brewery_with_null_lat_long.json")
+    let brewery = try jsonDecoder.decode(Brewery.self, from: sampleData)
+    XCTAssertNil(brewery.latitude)
+    XCTAssertNil(brewery.longitude)
+  }
+
     func testJsonDecodingBreweryPhone() throws {
         let decodedJson = try jsonDecoder.decode(Brewery.self, from: sampleBrewery)
         XCTAssertEqual(decodedJson.phone, "5138368733")

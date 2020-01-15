@@ -31,14 +31,9 @@ public struct Brewery: Decodable {
     country = try container.decode(String.self, forKey: CodingKeys.country)
     postalCode = try container.decode(String.self, forKey: CodingKeys.postalCode)
 
-    if let latitudeString = try? container.decode(String.self, forKey: CodingKeys.latitude),
-      let longitudeString = try? container.decode(String.self, forKey: CodingKeys.longitude) {
-      longitude = Double(longitudeString)
-      latitude = Double(latitudeString)
-    } else {
-      longitude = nil
-      latitude = nil
-    }
+    longitude = Double(try? container.decode(String.self, forKey: CodingKeys.longitude))
+    latitude = Double(try? container.decode(String.self, forKey: CodingKeys.latitude))
+
     phone = try container.decode(String.self, forKey: CodingKeys.phone)
     let urlString = try container.decode(String.self, forKey: CodingKeys.url)
     url = URL(string: urlString)

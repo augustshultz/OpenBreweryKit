@@ -18,10 +18,10 @@ class FilterBreweriesByCityTests: XCTestCase {
     let networkController = BreweryNetworkController(session: session)
     let expectation = XCTestExpectation()
     networkController.filterBreweries(byCity: "Des Moines") { (result) in
-        if case .success(let breweries) = result {
-            XCTAssertEqual(breweries.count, 8)
-            expectation.fulfill()
-        }
+      if case .success(let breweries) = result {
+        XCTAssertEqual(breweries.count, 8)
+        expectation.fulfill()
+      }
     }
     wait(for: [expectation], timeout: 1.0)
 

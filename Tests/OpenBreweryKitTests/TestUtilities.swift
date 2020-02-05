@@ -5,9 +5,9 @@
 import Foundation
 
 extension Data {
-    init(fromJsonFile jsonFile: String) throws {
-        let directory = URL(fileURLWithPath: #file).deletingLastPathComponent()
-        let file = directory.appendingPathComponent(jsonFile)
-        try self.init(contentsOf: file)
-    }
+  init(fromJsonFile jsonFile: String) throws {
+    let directory = URL(fileURLWithPath: #file).deletingLastPathComponent()
+    let file = directory.appendingPathComponent(jsonFile)
+    try self.init(contentsOf: file)
+  }
 }

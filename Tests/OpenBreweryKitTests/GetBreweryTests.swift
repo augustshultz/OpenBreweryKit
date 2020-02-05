@@ -17,10 +17,10 @@ class GetBreweryTests: XCTestCase {
     let networkController = BreweryNetworkController(session: session)
     let expectation = XCTestExpectation()
     networkController.getBrewery(forId: 5494) { (result) in
-        if case .success(let brewery) = result {
-            XCTAssertNotNil(brewery)
-            expectation.fulfill()
-        }
+      if case .success(let brewery) = result {
+        XCTAssertNotNil(brewery)
+        expectation.fulfill()
+      }
     }
     wait(for: [expectation], timeout: 1.0)
   }

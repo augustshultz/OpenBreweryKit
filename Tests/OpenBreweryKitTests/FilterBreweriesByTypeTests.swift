@@ -18,10 +18,10 @@ class FilterBreweriesByTypeTests: XCTestCase {
     let networkController = BreweryNetworkController(session: session)
     let expectation = XCTestExpectation()
     networkController.filterBreweries(byType: BreweryType.micro) { (result) in
-        if case .success(let breweries) = result {
-            XCTAssertEqual(breweries.count, 13)
-            expectation.fulfill()
-        }
+      if case .success(let breweries) = result {
+        XCTAssertEqual(breweries.count, 13)
+        expectation.fulfill()
+      }
     }
     wait(for: [expectation], timeout: 1.0)
 

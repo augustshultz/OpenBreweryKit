@@ -1,29 +1,28 @@
 //
-//  Created by August Shultz on 1/6/20.
+//  Created by August Shultz on 1/7/20.
 //
 
 import XCTest
 @testable import OpenBreweryKit
 
-class FilterBreweriesByTagsTests: XCTestCase {
+class FilterBreweriesByNameTests: XCTestCase {
 
-  func testFilterByType() throws {
+  func testFilterBreweriesByName() throws {
 
-    let url = URL(string: "https://api.openbrewerydb.org/breweries?by_tags=patio,dog-friendly")!
-    let data = try Data(fromJsonFile: "filter_breweries_by_tags.json")
+    let url = URL(string: "https://api.openbrewerydb.org/breweries?by_name=Big%20Grove")!
+    let data = try Data(fromJsonFile: "../Filter/filter_breweries_by_name.json")
     URLProtocolMock.urls = [url: data]
     let configuration = URLSessionConfiguration.ephemeral
     configuration.protocolClasses = [URLProtocolMock.self]
     let session = URLSession(configuration: configuration)
     let networkController = BreweryNetworkController(session: session)
     let expectation = XCTestExpectation()
-    networkController.filterBreweries(byTags: ["patio", "dog-friendly"]) { (result) in
+    networkController.filterBreweries(byName: "Big Grove") { (result) in
       if case .success(let breweries) = result {
-        XCTAssertEqual(breweries.count, 1)
+        XCTAssertEqual(breweries.count, 2)
         expectation.fulfill()
       }
     }
     wait(for: [expectation], timeout: 1.0)
-
   }
 }

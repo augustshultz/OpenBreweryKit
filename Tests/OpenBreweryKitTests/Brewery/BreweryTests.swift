@@ -14,8 +14,8 @@ class BreweryTests: XCTestCase {
   var sampleBreweries: Data!
 
   override func setUp() {
-    sampleBrewery = try! Data(fromJsonFile: "sample_brewery.json")
-    sampleBreweries = try! Data(fromJsonFile: "sample_breweries.json")
+    sampleBrewery = try! Data(fromJsonFile: "../Brewery/sample_brewery.json")
+    sampleBreweries = try! Data(fromJsonFile: "../Brewery/sample_breweries.json")
   }
 
   func testJsonDecodingId() throws {
@@ -69,7 +69,7 @@ class BreweryTests: XCTestCase {
   }
 
   func testJsonDecodeBreweryWithNullLatitudeAndLongitude() throws {
-    let sampleData = try Data(fromJsonFile: "sample_brewery_with_null_lat_long.json")
+    let sampleData = try Data(fromJsonFile: "../Brewery/sample_brewery_with_null_lat_long.json")
     let brewery = try jsonDecoder.decode(Brewery.self, from: sampleData)
     XCTAssertNil(brewery.latitude)
     XCTAssertNil(brewery.longitude)

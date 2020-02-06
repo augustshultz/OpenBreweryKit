@@ -45,7 +45,6 @@ public struct BreweryNetworkController {
       completion(.failure(BreweryNetworkControllerError.invalidURL))
       return
     }
-
     fetchBreweries(fromUrl: url, completion)
   }
 

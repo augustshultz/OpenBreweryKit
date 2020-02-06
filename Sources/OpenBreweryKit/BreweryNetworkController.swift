@@ -5,7 +5,7 @@
 import Foundation
 
 public enum BreweryNetworkControllerError: Error {
-  case invalidURL, noDataReturned, dataParsingError
+  case invalidURL, noDataReturned, dataParsingError, invalidZip
 }
 
 public struct BreweryNetworkController {
@@ -17,7 +17,7 @@ public struct BreweryNetworkController {
 
   public func filterBreweries(
     byCity city: String? = nil,
-    byName name: String? = nil,
+    byName name: String? = nil, byZip zip: String? = nil,
     byState state: String? = nil,
     byType type: BreweryType? = nil,
     byTags tags: [String] = [],
@@ -39,6 +39,13 @@ public struct BreweryNetworkController {
     }
     if tags.count > 0 {
       queryItems.append(URLQueryItem(name: "by_tags", value: tags.joined(separator: ",")))
+    }
+    if let zip = zip {
+      if !zip.isZipCode() {
+        completion(.failure(BreweryNetworkControllerError.invalidZip))
+        return
+      }
+      queryItems.append(URLQueryItem(name: "by_postal", value: zip))
     }
     components?.queryItems = queryItems
     guard let url = components?.url else {

@@ -18,11 +18,11 @@ class StringExtensionTests: XCTestCase {
   func testIsZipCodeFailsForValidZipAppendedByLetters() {
     XCTAssertFalse("12345a".isZipCode())
   }
-  
+
   func testIsZipCodeSucceedsForFiveDigitNumber() {
     XCTAssertTrue("12345".isZipCode())
   }
-  
+
   func testIsZipCodeSucceedsForNineDigitNumberSeparatedByADash() {
     XCTAssertTrue("12345-1234".isZipCode())
   }

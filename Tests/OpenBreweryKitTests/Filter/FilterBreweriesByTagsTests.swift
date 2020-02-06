@@ -7,7 +7,7 @@ import XCTest
 
 class FilterBreweriesByTagsTests: XCTestCase {
 
-  func testFilterByType() throws {
+  func testFilterByTags() throws {
 
     let url = URL(string: "https://api.openbrewerydb.org/breweries?by_tags=patio,dog-friendly")!
     let data = try Data(fromJsonFile: "../Filter/filter_breweries_by_tags.json")

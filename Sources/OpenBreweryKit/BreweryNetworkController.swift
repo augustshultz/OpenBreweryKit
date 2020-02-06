@@ -74,7 +74,6 @@ public struct BreweryNetworkController {
   }
 
   public func getBreweries(_ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
-
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries") else {
       completion(.failure(BreweryNetworkControllerError.invalidURL))
       return
@@ -83,7 +82,6 @@ public struct BreweryNetworkController {
   }
 
   public func searchForBreweries(searchText: String, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
-
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries/search"),
       var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
         completion(.failure(BreweryNetworkControllerError.invalidURL))
@@ -98,7 +96,6 @@ public struct BreweryNetworkController {
   }
 
   func fetchBreweries(fromUrl url: URL, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
-
     let task = session.dataTask(with: url) { (data, _, error) in
       if let error = error {
         completion(.failure(error))

@@ -82,7 +82,7 @@ class BreweryTests: XCTestCase {
 
   func testJsonDecodingBreweryUrl() throws {
     let decodedJson = try jsonDecoder.decode(Brewery.self, from: sampleBrewery)
-    XCTAssertEqual(decodedJson.url, URL(string: "http://www.madtreebrewing.com")!)
+    XCTAssertEqual(decodedJson.url, try XCTUnwrap(URL(string: "http://www.madtreebrewing.com")))
   }
 
   func testJsonDecodingBreweryTags() throws {

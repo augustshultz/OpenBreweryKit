@@ -9,7 +9,7 @@ class FilterBreweriesByTagsTests: XCTestCase {
 
   func testFilterByType() throws {
 
-    let url = URL(string: "https://api.openbrewerydb.org/breweries?by_tags=patio,dog-friendly")!
+    let url = try XCTUnwrap(URL(string: "https://api.openbrewerydb.org/breweries?by_tags=patio,dog-friendly"))
     let data = try Data(fromJsonFile: "../Filter/filter_breweries_by_tags.json")
     URLProtocolMock.urls = [url: data]
     let configuration = URLSessionConfiguration.ephemeral

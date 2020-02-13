@@ -8,7 +8,7 @@ import XCTest
 class BreweryNetworkControllerTests: XCTestCase {
 
   func testSearchForBrewery() throws {
-    let url = URL(string: "https://api.openbrewerydb.org/breweries/search?query=dog")!
+    let url = try XCTUnwrap(URL(string: "https://api.openbrewerydb.org/breweries/search?query=dog"))
     let data = try Data(fromJsonFile: "../Brewery/sample_breweries.json")
     URLProtocolMock.urls = [url: data]
     let configuration = URLSessionConfiguration.ephemeral
@@ -26,7 +26,7 @@ class BreweryNetworkControllerTests: XCTestCase {
   }
 
   func testGetBreweries() throws {
-    let url = URL(string: "https://api.openbrewerydb.org/breweries")!
+    let url = try XCTUnwrap(URL(string: "https://api.openbrewerydb.org/breweries"))
     let data = try Data(fromJsonFile: "../Brewery/sample_breweries.json")
     URLProtocolMock.urls = [url: data]
     let configuration = URLSessionConfiguration.ephemeral

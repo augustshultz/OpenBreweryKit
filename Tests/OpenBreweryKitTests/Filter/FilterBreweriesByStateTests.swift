@@ -9,7 +9,7 @@ class FilterBreweriesByStateTests: XCTestCase {
 
   func testFilterBreweriesByState() throws {
 
-    let url = URL(string: "https://api.openbrewerydb.org/breweries?by_state=Iowa")!
+    let url = try XCTUnwrap(URL(string: "https://api.openbrewerydb.org/breweries?by_state=Iowa"))
     let data = try Data(fromJsonFile: "../Filter/filter_breweries_by_state.json")
     URLProtocolMock.urls = [url: data]
     let configuration = URLSessionConfiguration.ephemeral

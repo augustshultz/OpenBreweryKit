@@ -8,7 +8,7 @@ import XCTest
 class GetBreweryTests: XCTestCase {
 
   func testGetBreweryForValidBrewery() throws {
-    let url = URL(string: "https://api.openbrewerydb.org/breweries/5494")!
+    let url = try XCTUnwrap(URL(string: "https://api.openbrewerydb.org/breweries/5494"))
     let data = try Data(fromJsonFile: "../Brewery/sample_brewery.json")
     URLProtocolMock.urls = [url: data]
     let configuration = URLSessionConfiguration.ephemeral

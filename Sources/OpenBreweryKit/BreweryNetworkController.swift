@@ -5,7 +5,7 @@
 import Foundation
 
 public enum BreweryNetworkControllerError: Error {
-  case invalidURL, noDataReturned, dataParsingError
+  case invalidURL, noDataReturned, dataParsingError, invalidZip
 }
 
 public struct BreweryNetworkController {
@@ -17,7 +17,7 @@ public struct BreweryNetworkController {
 
   public func filterBreweries(
     byCity city: String? = nil,
-    byName name: String? = nil,
+    byName name: String? = nil, byZip zip: String? = nil,
     byState state: String? = nil,
     byType type: BreweryType? = nil,
     byTags tags: [String] = [],
@@ -40,12 +40,18 @@ public struct BreweryNetworkController {
     if tags.count > 0 {
       queryItems.append(URLQueryItem(name: "by_tags", value: tags.joined(separator: ",")))
     }
+    if let zip = zip {
+      if !zip.isZipCode() {
+        completion(.failure(BreweryNetworkControllerError.invalidZip))
+        return
+      }
+      queryItems.append(URLQueryItem(name: "by_postal", value: zip))
+    }
     components?.queryItems = queryItems
     guard let url = components?.url else {
       completion(.failure(BreweryNetworkControllerError.invalidURL))
       return
     }
-
     fetchBreweries(fromUrl: url, completion)
   }
 
@@ -75,7 +81,6 @@ public struct BreweryNetworkController {
   }
 
   public func getBreweries(_ completion: @escaping ((Result<[Brewery], Error>) -> Void)) {
-
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries") else {
       completion(.failure(BreweryNetworkControllerError.invalidURL))
       return
@@ -84,7 +89,6 @@ public struct BreweryNetworkController {
   }
 
   public func searchForBreweries(searchText: String, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
-
     guard let url = URL(string: "https://api.openbrewerydb.org/breweries/search"),
       var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
         completion(.failure(BreweryNetworkControllerError.invalidURL))
@@ -99,7 +103,6 @@ public struct BreweryNetworkController {
   }
 
   func fetchBreweries(fromUrl url: URL, _ completion: @escaping (Result<[Brewery], Error>) -> Void) {
-
     let task = session.dataTask(with: url) { (data, _, error) in
       if let error = error {
         completion(.failure(error))
